@@ -28,14 +28,6 @@ if [ "$retval" == 1 ]; then
     exit 1
 fi
   
-
-echo ">>> Creating new MikeOS floppy image..."
-rm -rf disk_images
-mkdir -p disk_images
-
-dd if=/dev/zero bs=1024 count=1440 > disk_images/mikeos.dmg
-/usr/local/Cellar/dosfstools/4.1/sbin/mkfs.fat disk_images/mikeos.dmg
-
 echo ">>> Compile bootload.bin..."
 
 nasm -O0 -w+orphan-labels -f bin -o source/bootload/bootload.bin source/bootload/bootload.asm || exit
@@ -60,6 +52,10 @@ cd ..
 
 echo ">>> Creating iso.."
 
+rm -rf disk_images
+mkdir -p disk_images
+dd if=/dev/zero bs=1024 count=1440 > disk_images/mikeos.dmg
+/usr/local/Cellar/dosfstools/4.1/sbin/mkfs.fat disk_images/mikeos.dmg
 dd conv=notrunc if=source/bootload/bootload.bin of=disk_images/mikeos.dmg
 dev=`hdid -nobrowse -nomount disk_images/mikeos.dmg`
 mkdir tmp-loop && mount -t msdos ${dev} tmp-loop && cp source/kernel.bin tmp-loop/
