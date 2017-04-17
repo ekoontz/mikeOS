@@ -1,3 +1,34 @@
+prereq() {
+    if [ ! -x /usr/local/bin/nasm ]; then
+	echo >&2 "do 'brew install nasm'"
+	return 1
+    else
+	echo >&2 "you have nasm: good."
+    fi
+    if [ ! -x /usr/local/Cellar/dosfstools/4.1/sbin/mkfs.fat ]; then
+	echo >&2 "do 'brew install dosfstools'"
+	return 1
+    else
+	echo >&2 "you have dosfstools: good."
+    fi
+    if [ ! -x /usr/local/bin/qemu-system-i386 ]; then
+	echo >&2 "do 'brew install qemu-system-i386'"
+	return 1
+    else
+	echo >&2 "you have qemu: good."
+    fi
+     
+}    
+
+prereq
+retval=$?
+
+if [ "$retval" == 1 ]; then
+    echo "please install prerequisites and try again."
+    exit 1
+fi
+  
+
 echo ">>> Creating new MikeOS floppy image..."
 rm -rf disk_images
 mkdir -p disk_images
