@@ -33,9 +33,8 @@ echo ">>> Creating new MikeOS floppy image..."
 rm -rf disk_images
 mkdir -p disk_images
 
-dd if=/dev/zero bs=1024 count=1440 > disk_images/mikeos.flp
-/usr/local/Cellar/dosfstools/4.1/sbin/mkfs.fat disk_images/mikeos.flp
-cp disk_images/mikeos.flp disk_images/mikeos.dmg
+dd if=/dev/zero bs=1024 count=1440 > disk_images/mikeos.dmg
+/usr/local/Cellar/dosfstools/4.1/sbin/mkfs.fat disk_images/mikeos.dmg
 
 echo ">>> Compile bootload.bin..."
 
